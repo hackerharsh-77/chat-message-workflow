@@ -9,17 +9,20 @@ import { NodeHandle } from '../common/NodeHandle';
  */
 export const TextMessageNode = ({ data, selected }) => (
     <BaseNode selected={selected}>
-        <NodeHandle type="target" position={Position.Left} style={{ left: -6 }} />
-
-        <div className="flex items-center mb-2">
-            <MessageCircle className="w-4 h-4 text-green-500 mr-2" />
-            <span className="text-sm font-medium text-gray-700">Send Message</span>
+        <NodeHandle type="target" position={Position.Left} style={{ left: -8 }} />
+        <div className="flex items-center mb-3 pb-2 border-b border-gray-100">
+            <div className="p-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-green-500 mr-3">
+                <MessageCircle className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-sm font-semibold text-gray-800">Send Message</span>
         </div>
-
-        <div className="text-sm text-gray-600 break-words">
-            {data.message || 'Enter your message...'}
+        <div className="text-sm text-gray-700 leading-relaxed min-h-[2rem] flex items-center">
+            {data.message ? (
+                <span className="font-medium">{data.message}</span>
+            ) : (
+                <span className="text-gray-400 italic">Enter your message...</span>
+            )}
         </div>
-
-        <NodeHandle type="source" position={Position.Right} style={{ right: -6 }} />
+        <NodeHandle type="source" position={Position.Right} style={{ right: -8 }} />
     </BaseNode>
 );

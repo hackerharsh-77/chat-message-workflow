@@ -1,3 +1,4 @@
+// ===== FILE: src/components/FlowBuilder.jsx =====
 import React, { useState, useCallback, useRef } from 'react';
 import { useNodesState, useEdgesState, useReactFlow } from 'reactflow';
 import { FlowBuilderContext } from '../context/FlowBuilderContext';
@@ -74,7 +75,7 @@ export const FlowBuilder = () => {
 
         if (!validation.isValid) {
             setSaveError(validation.error);
-            return;
+            return false;
         }
 
         // Here you would typically call an API to save the flow
@@ -84,8 +85,7 @@ export const FlowBuilder = () => {
             timestamp: new Date().toISOString()
         });
 
-        // Show success feedback
-        alert('Flow saved successfully!');
+        return true;
     }, [validateFlow, nodes, edges]);
 
     // Context value
@@ -107,10 +107,28 @@ export const FlowBuilder = () => {
 
     return (
         <FlowBuilderContext.Provider value={contextValue}>
-            <div className="h-screen flex">
-                <div className="flex-1 relative">
+            <div className="h-screen flex bg-gradient-to-br from-gray-50 to-slate-100">
+                <div className="flex-1 relative overflow-hidden">
                     <SaveButton />
                     <FlowCanvas />
+
+                    {/* Empty State */}
+                    {nodes.length === 0 && (
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div className="text-center bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 shadow-lg max-w-md">
+                                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-xl font-bold text-gray-800 mb-2">Start Building Your Flow</h3>
+                                <p className="text-gray-600 text-sm leading-relaxed">
+                                    Drag components from the right panel to create your chatbot conversation flow.
+                                    Connect them to define the conversation path.
+                                </p>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {selectedNode ? (
